@@ -68,6 +68,16 @@ class SabaCashAttributes extends Guzzle
 
 
     /**
+     * @param $id
+     * @return SabaCashAttributes
+     */
+    public function setAdjustmentId($id): SabaCashAttributes
+    {
+        $this->attributes['id'] = $id;
+        return $this;
+    }
+
+    /**
      * @param $transactionId
      * @return SabaCashAttributes
      */
@@ -147,7 +157,7 @@ class SabaCashAttributes extends Guzzle
      */
     public function setOtp($otp): SabaCashAttributes
     {
-        $this->temp['otp'] = $otp;
+        $this->attributes['otp'] = $otp;
         return $this;
     }
 
