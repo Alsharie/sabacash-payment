@@ -100,7 +100,7 @@ class SabaCash extends SabaCashAttributes
 
         try {
             $response = $this->sendRequest(
-                $this->getOperationStatusPath(),
+                $this->getCheckTransactionPath(),
                 $this->attributes,
                 $this->headers,
             );

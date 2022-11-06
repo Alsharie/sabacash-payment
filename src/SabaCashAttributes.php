@@ -15,7 +15,67 @@ class SabaCashAttributes extends Guzzle
     protected array $temp = [];
 
 
+    /**
+     * @param $terminal
+     * @return SabaCashAttributes
+     */
+    public function setBeneficiaryTerminal($terminal): SabaCashAttributes
+    {
+        if (isset($this->attributes['beneficiary'])) {
+            $this->attributes['beneficiary']['code'] = $terminal;
+        } else {
+            $this->attributes['beneficiary'] = [
+                'terminal' => $terminal
+            ];
+        }
+        return $this;
+    }
 
+
+    /**
+     * @param $phone
+     * @return SabaCashAttributes
+     */
+    public function setBeneficiaryCode($phone): SabaCashAttributes
+    {
+        if (isset($this->attributes['beneficiary'])) {
+            $this->attributes['beneficiary']['code'] = $phone;
+        } else {
+            $this->attributes['beneficiary'] = [
+                'code' => $phone
+            ];
+        }
+        return $this;
+    }
+
+
+    /**
+     * set customer phone (source code)
+     * @param $phone
+     * @return SabaCashAttributes
+     */
+    public function setSourceCode($phone): SabaCashAttributes
+    {
+        if (isset($this->attributes['source'])) {
+            $this->attributes['source']['code'] = $phone;
+        } else {
+            $this->attributes['source'] = [
+                'code' => $phone
+            ];
+        }
+        return $this;
+    }
+
+
+    /**
+     * @param $transactionId
+     * @return SabaCashAttributes
+     */
+    public function setTransactionId($transactionId): SabaCashAttributes
+    {
+        $this->attributes['transactionId'] = $transactionId;
+        return $this;
+    }
 
 
     /**
@@ -30,16 +90,28 @@ class SabaCashAttributes extends Guzzle
 
 
     /**
-     * Cash team will provide u upon request
-     * 2= Rial Yemeni
-     * 4= Dollar
-     * 5= Rial Saudi
-     * @param $CurrencyId
+     * set currencyId in source & beneficiary & amountCurrencyId
+     * 2 = rial Yemeni
+     * @param int $CurrencyId
      * @return SabaCashAttributes
      */
-    public function setCurrency($CurrencyId): SabaCashAttributes
+    public function setCurrency(int $CurrencyId = 2): SabaCashAttributes
     {
         $this->attributes['amountCurrencyId'] = $CurrencyId;
+        if (isset($this->attributes['beneficiary'])) {
+            $this->attributes['beneficiary']['currencyId'] = $CurrencyId;
+        } else {
+            $this->attributes['beneficiary'] = [
+                'currencyId' => $CurrencyId
+            ];
+        }
+        if (isset($this->attributes['source'])) {
+            $this->attributes['source']['currencyId'] = $CurrencyId;
+        } else {
+            $this->attributes['source'] = [
+                'currencyId' => $CurrencyId
+            ];
+        }
         return $this;
     }
 
@@ -155,7 +227,6 @@ class SabaCashAttributes extends Guzzle
     {
         $this->headers['Authorization'] = 'bearer ' . config('sabaCash.auth.token');
     }
-
 
 
 }
