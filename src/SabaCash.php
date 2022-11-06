@@ -91,7 +91,7 @@ class SabaCash extends SabaCashAttributes
      * It is used to check the state of an operation ( It is useful in cases of time out).
      * @return SabaCashOperationStatusResponse|SabaCashErrorResponse
      */
-    public function operationStatus()
+    public function checkTransactionStatus()
     {
         // set header info
         $this->setAuthorization();
@@ -101,6 +101,7 @@ class SabaCash extends SabaCashAttributes
                 $this->getCheckTransactionPath(),
                 $this->attributes,
                 $this->headers,
+                'GET'
             );
 
             return new SabaCashOperationStatusResponse((string)$response->getBody());
