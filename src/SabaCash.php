@@ -69,7 +69,7 @@ class SabaCash extends SabaCashAttributes
     public function confirmPayment()
     {
         // set `username`, and `token` .
-        $this->setAuthAttributes();
+        $this->setAuthorization();
 
 
         try {
@@ -93,8 +93,6 @@ class SabaCash extends SabaCashAttributes
      */
     public function operationStatus()
     {
-        // set `username`, and `token` .
-        $this->setAuthAttributes();
         // set header info
         $this->setAuthorization();
 
