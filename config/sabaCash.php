@@ -7,6 +7,6 @@ return [
         'token' => env('SABACASH_MERCHANT_TOKEN'),
     ],
     'url' => [
-        'base' => env('SABACASH_BASE_URL', 'https://www.tamkeen.com.ye:33291'),
+        'base' => env('SABACASH_BASE_URL', 'https://api.sabacash.ye:49901'),
     ]
 ];
