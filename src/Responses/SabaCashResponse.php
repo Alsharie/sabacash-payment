@@ -40,6 +40,18 @@ class SabaCashResponse
 
     public function isSuccess()
     {
+        if (isset($this->data['source'])) {
+            if (isset($this->data['source']['viral']) && isset($this->data['source']['isRegistered'])) {
+                if ($this->data['source']['viral'] || !$this->data['source']['isRegistered'])
+                    return false;
+            }
+        }
+        if (isset($this->data['destination'])) {
+            if (isset($this->data['destination']['viral']) && isset($this->data['destination']['isRegistered'])) {
+                if ($this->data['destination']['viral'] || !$this->data['destination']['isRegistered'])
+                    return false;
+            }
+        }
 
         return $this->success;
 
