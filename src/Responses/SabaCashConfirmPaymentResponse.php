@@ -34,7 +34,7 @@ class SabaCashConfirmPaymentResponse extends SabaCashResponse
     /**
      * @return mixed|void
      */
-    public function getId()
+    public function getAdjustmentId()
     {
         if (!empty($this->data['id'])) {
             return $this->data['id'];
