@@ -78,6 +78,26 @@ class SabaCashAttributes extends Guzzle
     }
 
     /**
+     * approve payment online operation
+     * @return SabaCashAttributes
+     */
+    public function setOperationApprove(): SabaCashAttributes
+    {
+        $this->attributes['operation'] = 'approve';
+        return $this;
+    }
+
+    /**
+     * reject payment online operation
+     * @return SabaCashAttributes
+     */
+    public function setOperationReject(): SabaCashAttributes
+    {
+        $this->attributes['operation'] = 'reject';
+        return $this;
+    }
+
+    /**
      * @param $transactionId
      * @return SabaCashAttributes
      */
