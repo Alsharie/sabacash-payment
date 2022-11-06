@@ -22,7 +22,7 @@ class SabaCashAttributes extends Guzzle
     public function setBeneficiaryTerminal($terminal): SabaCashAttributes
     {
         if (isset($this->attributes['beneficiary'])) {
-            $this->attributes['beneficiary']['code'] = $terminal;
+            $this->attributes['beneficiary']['terminal'] = $terminal;
         } else {
             $this->attributes['beneficiary'] = [
                 'terminal' => $terminal
