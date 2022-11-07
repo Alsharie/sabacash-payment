@@ -25,6 +25,20 @@ return [
 ];
 ```
 
+
+--------------------
+### login
+
+```php
+    $sabaCash = new SabaCash();
+    $response = $sabaCash->login();
+
+    if ($response->isSuccess()) {
+        $response->getToken();
+    }
+```
+--------------------
+
 To purchase using SabaCash payment
 
 ### 1. Purchase
