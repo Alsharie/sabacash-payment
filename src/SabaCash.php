@@ -27,6 +27,7 @@ class SabaCash extends SabaCashAttributes
                 $this->getLoginPath(),
                 $this->attributes,
                 $this->headers,
+                $this->security
             );
 
             return new SabaCashLoginResponse((string)$response->getBody());
@@ -53,6 +54,7 @@ class SabaCash extends SabaCashAttributes
                 $this->getOnlinePaymentPath(),
                 $this->attributes,
                 $this->headers,
+                $this->security
             );
 
             return new SabaCashInitPaymentResponse((string)$response->getBody());
@@ -77,6 +79,7 @@ class SabaCash extends SabaCashAttributes
                 $this->getOnlinePaymentPath(),
                 $this->attributes,
                 $this->headers,
+                $this->security,
                 'PATCH'
             );
 
@@ -101,6 +104,7 @@ class SabaCash extends SabaCashAttributes
                 $this->getCheckTransactionPath(),
                 $this->attributes,
                 $this->headers,
+                $this->security,
                 'GET'
             );
 

@@ -12,9 +12,14 @@ class SabaCashAttributes extends Guzzle
     protected array $attributes = [];
 
     protected array $headers = [];
+    protected array $security = [];
     protected array $temp = [];
 
-
+    public function disableVerify()
+    {
+        $this->security['verify'] = false;
+        return $this;
+    }
     /**
      * @param $terminal
      * @return SabaCashAttributes
