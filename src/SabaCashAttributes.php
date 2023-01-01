@@ -3,6 +3,9 @@
 namespace Alsharie\SabaCashPayment;
 
 
+use Alsharie\JawaliPayment\Helpers\JawaliAuthHelper;
+use Alsharie\SabaCashPayment\Helpers\SabaCashAuthHelper;
+
 class SabaCashAttributes extends Guzzle
 {
 
@@ -260,7 +263,7 @@ class SabaCashAttributes extends Guzzle
      */
     protected function setAuthorization()
     {
-        $this->headers['Authorization'] = 'bearer ' . config('sabaCash.auth.token');
+        $this->headers['Authorization'] = 'bearer ' . SabaCashAuthHelper::getAuthToken();
     }
 
 

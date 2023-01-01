@@ -3,6 +3,8 @@
 namespace Alsharie\SabaCashPayment;
 
 
+use Alsharie\JawaliPayment\Helpers\JawaliAuthHelper;
+use Alsharie\SabaCashPayment\Helpers\SabaCashAuthHelper;
 use Alsharie\SabaCashPayment\Responses\SabaCashConfirmPaymentResponse;
 use Alsharie\SabaCashPayment\Responses\SabaCashErrorResponse;
 use Alsharie\SabaCashPayment\Responses\SabaCashInitPaymentResponse;
@@ -30,7 +32,10 @@ class SabaCash extends SabaCashAttributes
                 $this->security
             );
 
-            return new SabaCashLoginResponse((string)$response->getBody());
+
+            $response = new SabaCashLoginResponse((string)$response->getBody());
+            SabaCashAuthHelper::setAuthToken($response->getToken());
+            return $response;
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
         }

@@ -60,7 +60,7 @@ class Guzzle
                     $saba_cash->login();
                     return true;
                 }
-                
+
 
                 return false;
             }
