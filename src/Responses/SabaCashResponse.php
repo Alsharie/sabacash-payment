@@ -53,6 +53,10 @@ class SabaCashResponse
             }
         }
 
+        if (isset($this->data['errors'])) {
+            return false;
+        }
+
         return $this->success;
 
     }
