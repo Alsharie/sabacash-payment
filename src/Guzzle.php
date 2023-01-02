@@ -48,7 +48,7 @@ class Guzzle
                 \GuzzleHttp\Psr7\Response $response = null,
                 $exception = null
             ) {
-                $maxRetries = 5;
+                $maxRetries = 3;
 
                 if ($retries >= $maxRetries) {
                     return false;
