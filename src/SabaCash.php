@@ -38,6 +38,8 @@ class SabaCash extends SabaCashAttributes
             return $response;
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
+        } catch (\Exception $e) {
+            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 
@@ -65,6 +67,8 @@ class SabaCash extends SabaCashAttributes
             return new SabaCashInitPaymentResponse((string)$response->getBody());
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
+        } catch (\Exception $e) {
+            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 
@@ -91,6 +95,8 @@ class SabaCash extends SabaCashAttributes
             return new SabaCashConfirmPaymentResponse((string)$response->getBody());
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
+        } catch (\Exception $e) {
+            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 
@@ -116,6 +122,8 @@ class SabaCash extends SabaCashAttributes
             return new SabaCashOperationStatusResponse((string)$response->getBody());
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
+        } catch (\Exception $e) {
+            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
         }
     }
 
