@@ -48,19 +48,18 @@ class Guzzle
                 \GuzzleHttp\Psr7\Response $response = null,
                 $exception = null
             ) {
-                $maxRetries = 3;
+                $maxRetries = 2;
 
                 if ($retries >= $maxRetries) {
                     return false;
-                }
-
-                if ($response && ($response->getStatusCode() === 401 || $response->getStatusCode() === 400)) {
+                } else if ($request->getUri()->getPath() !== "/api/user-ms/v1/login" &&
+                    ($response && ($response->getStatusCode() === 401 || $response->getStatusCode() === 400))) {
                     // received 401, so we need to refresh the token
                     $saba_cash = new SabaCash();
                     $saba_cash->login();
+
                     return true;
                 }
-
 
                 return false;
             }
