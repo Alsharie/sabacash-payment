@@ -63,7 +63,7 @@ class Guzzle
         do {
             $headers['Authorization'] = 'Bearer ' . SabaCashAuthHelper::getAuthToken();
             try {
-                $_response = $this->guzzleClient->request(
+                $_response = $this->guzzleClient->requestAsync(
                     $method,
                     $path,
                     [
@@ -76,14 +76,18 @@ class Guzzle
                         'json' => $attributes,
                         ...$security
                     ]
-                );
-              
+                )->then(function ($response) {
+                    return $response;
+                }, function ($exception) {
+                    return $exception->getResponse();
+                })->wait();
+
+
                 if ($_response->getStatusCode() == 200) {
-                    $retries = 5;
+                    return $_response;
                 } else if ($path !== $this->getLoginPath() &&
                     ($_response && ($_response->getStatusCode() === 401 || $_response->getStatusCode() === 400))) {
                     // received 401, so we need to refresh the token
-                    var_export('refresh token');
                     $saba_cash = new SabaCash();
                     $saba_cash->login();
                     $retries++;
