@@ -39,10 +39,10 @@ class SabaCash extends SabaCashAttributes
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
         } catch (\Exception $e) {
-            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
+            return new SabaCashErrorResponse($e->getTraceAsString(), $e->getCode());
         }
     }
-
+    
     /**
      * It Is used to allow the merchant to initiate a payment for a specific customer.
      * @return SabaCashInitPaymentResponse|SabaCashErrorResponse
@@ -68,7 +68,7 @@ class SabaCash extends SabaCashAttributes
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
         } catch (\Exception $e) {
-            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
+            return new SabaCashErrorResponse($e->getTraceAsString(), $e->getCode());
         }
     }
 
@@ -96,7 +96,7 @@ class SabaCash extends SabaCashAttributes
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
         } catch (\Exception $e) {
-            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
+            return new SabaCashErrorResponse($e->getTraceAsString(), $e->getCode());
         }
     }
 
@@ -123,7 +123,7 @@ class SabaCash extends SabaCashAttributes
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return new SabaCashErrorResponse($e->getResponse()->getBody(), $e->getResponse()->getStatusCode());
         } catch (\Exception $e) {
-            return new SabaCashErrorResponse($e->getMessage(), $e->getCode());
+            return new SabaCashErrorResponse($e->getTraceAsString(), $e->getCode());
         }
     }
 
