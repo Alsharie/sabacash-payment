@@ -92,7 +92,7 @@ class Guzzle
                     $saba_cash->login();
                     $retries++;
                 }
-            } catch (GuzzleException $e) {
+            } catch (\Exception $e) {
                 $retries++;
             }
         } while ($retries <= 2);
