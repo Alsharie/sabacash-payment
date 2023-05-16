@@ -4,9 +4,6 @@ namespace Alsharie\SabaCashPayment;
 
 use Alsharie\SabaCashPayment\Helpers\SabaCashAuthHelper;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 class Guzzle
@@ -85,13 +82,16 @@ class Guzzle
 
                 if ($_response->getStatusCode() == 200) {
                     return $_response;
-                } else if ($path !== $this->getLoginPath() &&
-                    ($_response && ($_response->getStatusCode() === 401 || $_response->getStatusCode() === 400))) {
-                    // received 401, so we need to refresh the token
-                    $saba_cash = new SabaCash();
-                    $saba_cash->login();
-                    $retries++;
+                } else if (strpos(strtolower($_response->getBody()->getContents()), 'anonymous') !== false) {
+                    if ($path !== $this->getLoginPath() &&
+                        ($_response->getStatusCode() === 401 || $_response->getStatusCode() === 400)) {
+                        // received 401, so we need to refresh the token
+                        $saba_cash = new SabaCash();
+                        $saba_cash->login();
+                    }
                 }
+
+                $retries++;
             } catch (\Exception $e) {
                 $retries++;
             }
@@ -99,7 +99,6 @@ class Guzzle
 
         return $_response;
     }
-
 
 
     protected function getLoginPath(): string
