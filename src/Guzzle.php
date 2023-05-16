@@ -2,6 +2,7 @@
 
 namespace Alsharie\SabaCashPayment;
 
+use Alsharie\SabaCashPayment\Helpers\SabaCashAuthHelper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
@@ -39,36 +40,8 @@ class Guzzle
         if (!isset($_SESSION)) {
             session_start();
         }
-        $stack = new HandlerStack();
-        $stack->setHandler(Utils::chooseHandler());
-        $stack->push(\GuzzleHttp\Middleware::retry(
-            function (
-                $retries,
-                \GuzzleHttp\Psr7\Request $request,
-                \GuzzleHttp\Psr7\Response $response = null,
-                $exception = null
-            ) {
-                $maxRetries = 2;
 
-                if ($retries >= $maxRetries) {
-                    return false;
-                } else if ($request->getUri()->getPath() !== "/api/user-ms/v1/login" &&
-                    ($response && ($response->getStatusCode() === 401 || $response->getStatusCode() === 400))) {
-                    // received 401, so we need to refresh the token
-                    $saba_cash = new SabaCash();
-                    $saba_cash->login();
-
-                    return true;
-                }
-
-                return false;
-            }
-        ));
-
-
-        $this->guzzleClient = new Client([
-            'handler' => $stack,
-        ]);
+        $this->guzzleClient = new Client();
 
         $this->basePath = config('sabaCash.url.base');
     }
@@ -77,27 +50,52 @@ class Guzzle
     /**
      * @param $path
      * @param $attributes
+     * @param $headers
+     * @param array $security
      * @param string $method
      * @return ResponseInterface
-     * @throws GuzzleException
      */
     protected function sendRequest($path, $attributes, $headers, $security = [], string $method = 'POST'): ResponseInterface
     {
-        return $this->guzzleClient->request(
-            $method,
-            $path,
-            [
-                'headers' => array_merge(
+        $retries = 0;
+        $success = false;
+        $_response = null;
+        do {
+            $headers['Authorization'] = 'Bearer ' . SabaCashAuthHelper::getAuthToken();
+            try {
+                $_response = $this->guzzleClient->request(
+                    $method,
+                    $path,
                     [
-                        'Content-Type' => 'application/json',
-                    ],
-                    $headers
-                ),
-                'json' => $attributes,
-                ...$security
-            ]
-        );
+                        'headers' => array_merge(
+                            [
+                                'Content-Type' => 'application/json',
+                            ],
+                            $headers
+                        ),
+                        'json' => $attributes,
+                        ...$security
+                    ]
+                );
+              
+                if ($_response->getStatusCode() == 200) {
+                    $retries = 5;
+                } else if ($path !== $this->getLoginPath() &&
+                    ($_response && ($_response->getStatusCode() === 401 || $_response->getStatusCode() === 400))) {
+                    // received 401, so we need to refresh the token
+                    var_export('refresh token');
+                    $saba_cash = new SabaCash();
+                    $saba_cash->login();
+                    $retries++;
+                }
+            } catch (GuzzleException $e) {
+                $retries++;
+            }
+        } while ($retries <= 2);
+
+        return $_response;
     }
+
 
 
     protected function getLoginPath(): string

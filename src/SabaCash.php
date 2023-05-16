@@ -42,7 +42,7 @@ class SabaCash extends SabaCashAttributes
             return new SabaCashErrorResponse($e->getTraceAsString(), $e->getCode());
         }
     }
-    
+
     /**
      * It Is used to allow the merchant to initiate a payment for a specific customer.
      * @return SabaCashInitPaymentResponse|SabaCashErrorResponse

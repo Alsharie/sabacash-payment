@@ -3,8 +3,6 @@
 namespace Alsharie\SabaCashPayment\Helpers;
 
 
-use Illuminate\Support\Facades\Session;
-
 class SabaCashAuthHelper
 {
 
@@ -13,17 +11,13 @@ class SabaCashAuthHelper
 
     public static function setAuthToken($token)
     {
-
-        Session::put(self::$auth_session_name, $token);
-
-        Session::save();
+        $_SESSION[self::$auth_session_name] = $token;
     }
 
     public static function getAuthToken()
     {
-
-        if (Session::exists(self::$auth_session_name))
-            return Session::get(self::$auth_session_name);
+        if (isset($_SESSION[self::$auth_session_name]))
+            return $_SESSION[self::$auth_session_name];
         return null;
     }
 
